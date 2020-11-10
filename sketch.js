@@ -561,7 +561,7 @@ function Reset() {
 
   GRID = [...Array(100)].map(e => Array(100).fill(0));
   myPath = [...Array(100)].map(e => Array(100).fill(0));
-
+  s_current = s_start
 }
 function Traverse(pos){
     if(pos.x < 0 || pos.x >100 || pos.y < 0 || pos.y >100 || pos==s_goal){
