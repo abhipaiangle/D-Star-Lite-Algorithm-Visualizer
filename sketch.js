@@ -553,6 +553,13 @@ function delay(ms) {
   }
 }
 function Reset() {
+  s_last  = 0
+  s_start = 0
+  km = 0 
+  s_start   = new Vector(0,0);
+  s_current = new Vector(0,0);
+  s_goal   = new Vector(6,7);
+
   s_last = s_start
   queue = new PriorityQueue((a, b) => comp(a[1],b[1]));
   km = 0;
