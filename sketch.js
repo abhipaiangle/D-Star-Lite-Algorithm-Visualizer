@@ -27,8 +27,8 @@ var speed=25;
 var fps=3;
 
 var GridSize=50;
-var Zoom=2;
-var Background=[55,245];
+var Zoom=1;
+var Background=[100,245];
 var autorun = false;
 
 
@@ -169,7 +169,7 @@ var s_start = 0
 var km = 0 
 s_start   = new Vector(0,0);
 s_current = new Vector(0,0);
-s_goal   = new Vector(15,15);
+s_goal   = new Vector(6,7);
 
 function comp(a,b){
   if(a[0]>b[0]){
