@@ -80,7 +80,7 @@ class PriorityQueue {
   }
   TopKey() {
     if(this._heap.length==0){
-      return [Inf,Inf]
+      return [Inf*4,Inf*4]
     }
     return [this._heap[top][1][0],this._heap[top][1][1]];
   }
