@@ -384,23 +384,28 @@ function draw_grid(){
       textSize(7);
       text("("+str(xb)+","+str(yb) +")", x+blocksize/3 ,  y + blocksize-10);
 
-      
-      textSize(10);
-      if(rhs[xb][yb]!=Inf && g[xb][yb]!=Inf)
-      text(str(rhs[xb][yb]) + " , "+ str(g[xb][yb]) , x+blocksize/4,  y + blocksize/4);
+      if(rhs[xb][yb]!=Inf && g[xb][yb]!=Inf){
+        fill(0,123,211,50)
+        rect(x + blocksize/2, y + blocksize/2, blocksize,blocksize);
+      }
 
+
+      textSize(10);
+      if(rhs[xb][yb]!=Inf && g[xb][yb]!=Inf){
+        fill(0)
+        text(str(rhs[xb][yb]) + " , "+ str(g[xb][yb]) , x+blocksize/4,  y + blocksize/4);
+      }
 
 			stroke(59, 172, 251);
       strokeWeight(0.04);
       
       if(myPath[xb][yb]==1){
-        fill(0,0,255)
+        fill(0,123,211)
         rect(x + blocksize/2, y + blocksize/2, blocksize,blocksize);
       }else if(GRID[xb][yb]==1){
         fill(0)
         rect(x + blocksize/2, y + blocksize/2, blocksize,blocksize);
       }
-
       if(s_start.x==xb && s_start.y == yb){
         fill(255,0,0)
         rect(x + blocksize/2, y + blocksize/2, blocksize,blocksize);
@@ -500,7 +505,7 @@ function mouseReleased() {
         s_start.x = floor(mouseX/blocksize)
         s_start.y = floor(mouseY/blocksize)
 
-        s_current = s_start
+        s_current = new Vector(s_start.x,s_start.y)
       }
       if(floor(xOffset/(GridSize*Zoom))==s_goal.x){
         s_goal.x = floor(mouseX/blocksize)
@@ -595,7 +600,7 @@ function Reset() {
 
   //GRID = [...Array(100)].map(e => Array(100).fill(0));
   myPath = [...Array(100)].map(e => Array(100).fill(0));
-  s_current = s_start
+  s_current = new Vector(s_start.x,s_start.y)
 }
 function Traverse(pos){
     if(pos.x < 0 || pos.x >100 || pos.y < 0 || pos.y >100 || pos==s_goal){
