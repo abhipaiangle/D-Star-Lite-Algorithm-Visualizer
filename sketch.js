@@ -315,24 +315,7 @@ function setup() {
   //pixelDensity(4);
   createCanvas(windowWidth, windowHeight );
 
-  console_area=createElement('textarea', 'Console ');
-  console_area.attribute("rows","40");
-  console_area.attribute("cols","70");
-  console_area.attribute("readonly",true);
 
-  area= createElement('textarea', 'Visualization Log');
-  area.attribute("rows","40");
-  area.attribute("cols","42");
-  area.attribute("readonly",true);
-
-
-  code_area= createElement('textarea', 'Copy Paste Assembly Code');
-  code_area.attribute("rows","40");
-  code_area.attribute("cols","35");
-
-  matrix_area = createElement('textarea', 'Copy Paste Matrix');
-  matrix_area.attribute("rows","40");
-  matrix_area.attribute("cols","40");
 
   //arduino_mega2 = loadImage('arduino_mega_small.png');
   rectMode(CENTER);
