@@ -79,6 +79,9 @@ class PriorityQueue {
     return this._heap[top];
   }
   TopKey() {
+    if(this._heap.length==0){
+      return [Inf,Inf]
+    }
     return [this._heap[top][1][0],this._heap[top][1][1]];
   }
 
@@ -449,10 +452,9 @@ function draw() {
   pop();
 
   if(autorun){
-    
     Execute();
     delay(speed);
-    if(s_current==s_goal)autorun = false;
+    if(isVectorEqual(s_current,s_goal))autorun = false;
   }
 
 
@@ -559,7 +561,7 @@ function Reset() {
   rhs[s_goal.x][s_goal.y] = 0;
   queue.push([[s_goal.x,s_goal.y],CalculateKey(s_goal)]);
 
-  GRID = [...Array(100)].map(e => Array(100).fill(0));
+  //GRID = [...Array(100)].map(e => Array(100).fill(0));
   myPath = [...Array(100)].map(e => Array(100).fill(0));
   s_current = s_start
 }
@@ -580,7 +582,8 @@ function give_rhs(x,y){
 function Execute(){
     //current
     c = s_current
-    if(c==s_goal)return
+    myPath[s_start.x][s_start.y]=1
+    if(isVectorEqual(c,s_goal))return
 
     var t   = [ [0,1], [1,0] , [-1,0], [0,-1]]
     var lis = [ give_rhs(c.x,c.y+1),give_rhs(c.x+1,c.y),give_rhs(c.x-1,c.y),give_rhs(c.x,c.y-1)  ]
@@ -588,7 +591,7 @@ function Execute(){
     var togo  = lis.indexOf(Math.min(...lis))
     s_current.x += t[togo][0]
     s_current.y += t[togo][1]
-
+    s_start = s_current
     Traverse(s_current)
 
 }
