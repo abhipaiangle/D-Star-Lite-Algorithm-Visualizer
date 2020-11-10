@@ -1,0 +1,17 @@
+Register List Per Core
+======================
+⠀
+⠀
+Register	Purpose	Size (bits)
+R1		Loading Constants	8
+R2		Store i			8
+R3		Store n			8
+R4		Store n^2		8
+R5		Connected to ALU 	16
+R6		Temporary Register	16
+R7		Store Total		16
+AR		Addresses of Memory 	8
+DR		Data from/to Memory 	8
+PC		Program Counter		8
+IR		Instruction Register	8
+AC		Accumulator 		16
