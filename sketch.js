@@ -173,7 +173,7 @@ class Vector {
 var km = 0 
 s_start   = new Vector(0,0);
 s_current = new Vector(0,0);
-s_goal   = new Vector(7,7);
+s_goal    = new Vector(7,7);
 
 function comp(a,b){
   if(a[0]>b[0]){
@@ -283,10 +283,12 @@ var queue = new PriorityQueue((a, b) => comp(a[1],b[1]));
 var km = 0;
 var rhs = [...Array(100)].map(e => Array(100).fill(Inf));
 var g   = [...Array(100)].map(e => Array(100).fill(Inf)); 
-rhs[s_goal.x][s_goal.y] = 0;
-queue.push([[s_goal.x,s_goal.y],CalculateKey(s_goal)]);
 
-
+function find(){
+  rhs[s_goal.x][s_goal.y] = 0;
+  queue.push([[s_goal.x,s_goal.y],CalculateKey(s_goal)]);
+  ComputeShortestPath()
+}
 //CalculateKey(s_goal)
 
 //ComputeShortestPath()
@@ -340,7 +342,7 @@ function setup() {
   
   gui = createGui('D* Lite Visualizer', windowWidth - 250 , windowHeight/2 - 500);
   gui.addButton("Calculate Shortest Path", function() {
-    ComputeShortestPath();
+    find();
   });
   gui.addButton("Reset", function() {
     Reset();
@@ -508,8 +510,7 @@ function mouseReleased() {
         s_current = new Vector(s_start.x,s_start.y)
       }
       if(floor(xOffset/(GridSize*Zoom))==s_goal.x){
-        s_goal.x = floor(mouseX/blocksize)
-        s_goal.y = floor(mouseY/blocksize)
+        s_goal = new Vector (floor(mouseX/blocksize),floor(mouseY/blocksize))
       }
       return
     }
