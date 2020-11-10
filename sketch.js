@@ -305,7 +305,7 @@ while (!queue.isEmpty()) {
 
 function setup() {
   green=false;
-  frameRate(5);
+  frameRate(3);
   //pixelDensity(4);
   createCanvas(windowWidth, windowHeight );
 
@@ -558,6 +558,9 @@ function Reset() {
   g   = [...Array(100)].map(e => Array(100).fill(Inf)); 
   rhs[s_goal.x][s_goal.y] = 0;
   queue.push([[s_goal.x,s_goal.y],CalculateKey(s_goal)]);
+
+  GRID = [...Array(100)].map(e => Array(100).fill(0));
+  myPath = [...Array(100)].map(e => Array(100).fill(0));
 
 }
 function Traverse(pos){
