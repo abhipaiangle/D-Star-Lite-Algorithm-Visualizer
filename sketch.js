@@ -382,6 +382,7 @@ function draw_grid(){
 
       
       textSize(10);
+      if(rhs[xb][yb]!=Inf && g[xb][yb]!=Inf)
       text(str(rhs[xb][yb]) + " , "+ str(g[xb][yb]) , x+blocksize/4,  y + blocksize/4);
 
 
