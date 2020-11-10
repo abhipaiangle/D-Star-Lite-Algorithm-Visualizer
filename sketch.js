@@ -23,7 +23,7 @@ let yOffset = 0.0;
 let bx=0;
 let by=0;
 var PanZoom = false;
-var speed=25;
+var speed=10;
 var fps=3;
 
 var GridSize=50;
@@ -308,7 +308,7 @@ while (!queue.isEmpty()) {
 
 function setup() {
   green=false;
-  frameRate(3);
+  frameRate(10);
   //pixelDensity(4);
   createCanvas(windowWidth, windowHeight );
 
