@@ -199,19 +199,19 @@ function h(point1,point2){
 
 function CalculateKey(s){
   //Calculate Key 
-  console.log("=> activating calculate key",s)
-  console.log("=> CalculateKey ✅ ",Math.min(g[s.x][s.y],rhs[s.x][s.y]) + h(s_start,s) + km , Math.min(g[s.x][s.y],rhs[s.x][s.y]))
+  //console.log("=> activating calculate key",s)
+  //console.log("=> CalculateKey ✅ ",Math.min(g[s.x][s.y],rhs[s.x][s.y]) + h(s_start,s) + km , Math.min(g[s.x][s.y],rhs[s.x][s.y]))
   return [Math.min(g[s.x][s.y],rhs[s.x][s.y]) + h(s_start,s) + km , Math.min(g[s.x][s.y],rhs[s.x][s.y])]
 }
 var count =0
 function UpdateVertex(u){
 
-  console.log("==> Update Vertex")
+  //console.log("==> Update Vertex")
   if ( u.x < 0 || u.x > 100 || u.y < 0 || u.y > 100){
-    console.log("Stopped Unexpectedly",u)
+    //console.log("Stopped Unexpectedly",u)
     return -1
   }
-  console.log(" => UpdateVertex ",u)
+  //console.log(" => UpdateVertex ",u)
   if(!isVectorEqual(u,s_goal)){
         //n = [[0,1],[1,0],[-1,0],[0,-1]]
         let c1,c2,c3,c4;
@@ -227,19 +227,19 @@ function UpdateVertex(u){
         if(u.y-1 < 0 || GRID[u.x][u.y-1]) c4 = Inf
         else  c4 = g[u.x  ][u.y-1] + 1 + GRID[u.x][u.y]*Inf
 
-        console.log("=> RHS[",u.x,",",u.y,"] = ",Math.min(c1,c2,c3,c4))
+        //console.log("=> RHS[",u.x,",",u.y,"] = ",Math.min(c1,c2,c3,c4))
         rhs[u.x][u.y]  = Math.min(c1,c2,c3,c4)
   }
   if(queue._findElementIndex([u.x,u.y])){
     queue.removeKey([u.x,u.y]);
   }
   if(g[u.x][u.y]!=rhs[u.x][u.y]){
-    console.log("Reddaaaa =>")
+    //console.log("Reddaaaa =>")
     queue.push([[u.x,u.y],CalculateKey(u)])
   }
 }
 function ComputeShortestPath(){
-  console.log(" => ComputeShortestPath")
+  //console.log(" => ComputeShortestPath")
   
   
   while(comp(queue.TopKey(),CalculateKey(s_start))
