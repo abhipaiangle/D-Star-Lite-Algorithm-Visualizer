@@ -16,6 +16,8 @@ var myPath = [...Array(100)].map(e => Array(100).fill(0));
 var lastx = 0
 var lasty = 0
 
+var start_selected = false
+
 
 let xOffset = 0.0;
 let yOffset = 0.0;
@@ -167,12 +169,11 @@ class Vector {
 
 
 //D* Lite algorithm Parameters
-var s_last  = 0
-var s_start = 0
+
 var km = 0 
 s_start   = new Vector(0,0);
 s_current = new Vector(0,0);
-s_goal   = new Vector(6,7);
+s_goal   = new Vector(7,7);
 
 function comp(a,b){
   if(a[0]>b[0]){
@@ -461,12 +462,22 @@ function draw() {
 }
 
 function mousePressed(){
+
+
   console.log("> mouse pressed ",floor(mouseX/blocksize),floor(mouseY/blocksize))
   xOffset = mouseX
   yOffset = mouseY
 
   let xoff = floor(xOffset/(GridSize*Zoom))//*(GridSize*Zoom);
   let yoff = floor(yOffset/(GridSize*Zoom))//*(GridSize*Zoom);
+
+  if((s_start.x == xoff && s_start.y == yoff) || (s_goal.x == xoff && s_goal.y == yoff)){
+    start_selected = true
+    return
+  }else{
+    start_selected = false
+  }
+
 
   console.log("=> ",xoff,yoff);
   if(GRID[xoff][yoff]){
@@ -481,9 +492,25 @@ function mousePressed(){
 }
 function mouseReleased() {
 
-    if(mouseX==xOffset && mouseY==yOffset){
+    if(mouseX==xOffset && mouseY==yOffset && start_selected==false){
       return;
     }
+    if(start_selected){
+      if(floor(xOffset/(GridSize*Zoom))==s_start.x){
+        s_start.x = floor(mouseX/blocksize)
+        s_start.y = floor(mouseY/blocksize)
+
+        s_current = s_start
+      }
+      if(floor(xOffset/(GridSize*Zoom))==s_goal.x){
+        s_goal.x = floor(mouseX/blocksize)
+        s_goal.y = floor(mouseY/blocksize)
+      }
+      return
+    }
+
+
+
     var tempGRID = [...Array(100)].map(e => Array(100).fill(0));
     console.log(" <= mouse released ",floor(mouseX/blocksize),floor(mouseY/blocksize))
 
@@ -553,14 +580,12 @@ function delay(ms) {
   }
 }
 function Reset() {
-  s_last  = 0
-  s_start = 0
-  km = 0 
-  s_start   = new Vector(0,0);
-  s_current = new Vector(0,0);
-  s_goal   = new Vector(6,7);
 
-  s_last = s_start
+  km = 0 
+  //s_start   = new Vector(0,0);
+  //s_current = new Vector(0,0);
+  //s_goal   = new Vector(6,7);
+
   queue = new PriorityQueue((a, b) => comp(a[1],b[1]));
   km = 0;
   rhs = [...Array(100)].map(e => Array(100).fill(Inf));
@@ -598,9 +623,7 @@ function Execute(){
     var togo  = lis.indexOf(Math.min(...lis))
     s_current.x += t[togo][0]
     s_current.y += t[togo][1]
-    s_start = s_current
     Traverse(s_current)
-
 }
 
 
