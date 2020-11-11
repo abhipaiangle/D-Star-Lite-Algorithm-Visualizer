@@ -17,7 +17,7 @@ var lastx = 0
 var lasty = 0
 
 var start_selected = false
-
+var changed_pos = []
 
 let xOffset = 0.0;
 let yOffset = 0.0;
@@ -25,7 +25,7 @@ let yOffset = 0.0;
 let bx=0;
 let by=0;
 var PanZoom = false;
-var speed=10;
+var speed=200;
 var fps=3;
 
 var GridSize=50;
@@ -233,6 +233,7 @@ function UpdateVertex(u){
 
         //console.log("=> RHS[",u.x,",",u.y,"] = ",Math.min(c1,c2,c3,c4))
         rhs[u.x][u.y]  = Math.min(c1,c2,c3,c4)
+        
   }
   if(queue._findElementIndex([u.x,u.y])){
     queue.removeKey([u.x,u.y]);
@@ -243,7 +244,7 @@ function UpdateVertex(u){
   }
 }
 function ComputeShortestPath(){
-  //console.log(" => ComputeShortestPath")
+  console.log(" => ComputeShortestPath")
   
   
   while(comp(queue.TopKey(),CalculateKey(s_start))
@@ -273,21 +274,27 @@ function ComputeShortestPath(){
         UpdateVertex(new Vector(u.x  ,u.y-1))
         UpdateVertex(new Vector(u.x-1,u.y))
       }
+      
 
     }
 }
 
 //initilize
-s_last = s_start
+s_last = new Vector(s_start.x,s_start.y)
 var queue = new PriorityQueue((a, b) => comp(a[1],b[1]));
 var km = 0;
 var rhs = [...Array(100)].map(e => Array(100).fill(Inf));
 var g   = [...Array(100)].map(e => Array(100).fill(Inf)); 
 
 function find(){
+  s_last = new Vector(s_start.x,s_start.y)
+  km = 0
   rhs[s_goal.x][s_goal.y] = 0;
   queue.push([[s_goal.x,s_goal.y],CalculateKey(s_goal)]);
   ComputeShortestPath()
+
+
+
 }
 //CalculateKey(s_goal)
 
@@ -311,7 +318,7 @@ while (!queue.isEmpty()) {
 
 function setup() {
   green=false;
-  frameRate(10);
+  frameRate(5);
   //pixelDensity(4);
   createCanvas(windowWidth, windowHeight );
 
@@ -370,7 +377,7 @@ function draw_grid(){
       text("("+str(xb)+","+str(yb) +")", x+blocksize/3 ,  y + blocksize-10);
 
       if(rhs[xb][yb]!=Inf && g[xb][yb]!=Inf){
-        fill(0,123,211,50)
+        fill(km*15,123,211,50)
         rect(x + blocksize/2, y + blocksize/2, blocksize,blocksize);
       }
 
@@ -434,16 +441,16 @@ function draw() {
   //console_area.elt.value = consoleLog.join("\n");
   //area.elt.value         = regLog.join("\n");
 
-  
+  /*
   push();
   let fps = frameRate();
   fill(100);
   stroke(1);
   text("FPS: " + fps.toFixed(2),  9*width/10, 9*height/10 -20*5);
   pop();
-
+*/
   if(autorun){
-    Execute();
+    continous();
     delay(speed);
     if(isVectorEqual(s_current,s_goal))autorun = false;
   }
@@ -472,11 +479,13 @@ function mousePressed(){
   console.log("=> ",xoff,yoff);
   if(GRID[xoff][yoff]){
     GRID[xoff][yoff] = 0
+    changed_pos.push([xoff,yoff])
     
   }else{
     GRID[xoff][yoff] = 1
     lastx = xoff
     lasty = yoff
+    changed_pos.push([xoff,yoff])
   }
 
 }
@@ -511,6 +520,7 @@ function mouseReleased() {
         //console.log("=> ",xoff,yoff);
 
         tempGRID[xoff][yoff] = 1
+        changed_pos.push([xoff,yoff])
         
       }
     }
@@ -600,19 +610,77 @@ function give_rhs(x,y){
 
 }
 
+function give_g(x,y){
+  if(x < 0 || x >100 || y < 0 || y >100)return Inf
+
+  return g[x][y];
+
+}
+
 function Execute(){
     //current
-    c = s_current
-    myPath[s_start.x][s_start.y]=1
-    if(isVectorEqual(c,s_goal))return
+    if(isVectorEqual(s_start,s_goal))return
 
     var t   = [ [0,1], [1,0] , [-1,0], [0,-1]]
-    var lis = [ give_rhs(c.x,c.y+1),give_rhs(c.x+1,c.y),give_rhs(c.x-1,c.y),give_rhs(c.x,c.y-1)  ]
+    var lis = [ give_g(s_start.x,s_start.y+1),give_g(s_start.x+1,s_start.y),give_g(s_start.x-1,s_start.y),give_g(s_start.x,s_start.y-1)  ]
 
     var togo  = lis.indexOf(Math.min(...lis))
-    s_current.x += t[togo][0]
-    s_current.y += t[togo][1]
-    Traverse(s_current)
+    s_start.x += t[togo][0]
+    s_start.y += t[togo][1]
+    
+    Traverse(s_start)
+
+    if(changed_pos.length > 0){
+      console.log("✨ => Edge costs changed...")
+
+      km = km + h(s_last,s_start)
+      s_last = new Vector(s_start.x,s_start.y)
+
+
+      while(changed_pos.length > 0){
+          one_point = changed_pos.pop();
+
+          //g[one_point[0]][one_point[1]] = GRID[one_point[0]][one_point[1]]*Inf
+          //g[one_point[0]][one_point[1]+1] = GRID[one_point[0]][one_point[1]]*Inf
+          UpdateVertex(new Vector(one_point[0],one_point[1]))
+      }
+      ComputeShortestPath();
+      
+    }
 }
 
 
+function continous(){
+  //while(!isVectorEqual(s_start,s_goal)){
+    if(isVectorEqual(s_start,s_goal))return
+
+    var t   = [ [0,1], [1,0] , [-1,0], [0,-1]]
+    var lis = [ give_g(s_start.x,s_start.y+1),give_g(s_start.x+1,s_start.y),give_g(s_start.x-1,s_start.y),give_g(s_start.x,s_start.y-1)  ]
+
+    var togo  = lis.indexOf(Math.min(...lis))
+    s_start.x += t[togo][0]
+    s_start.y += t[togo][1]
+    
+    Traverse(s_start)
+
+    if(changed_pos.length > 0){
+      console.log("✨ => Edge costs changed...")
+
+      km = km + h(s_last,s_start)
+      s_last = new Vector(s_start.x,s_start.y)
+
+
+      while(changed_pos.length > 0){
+          one_point = changed_pos.pop();
+
+          //g[one_point[0]][one_point[1]] = GRID[one_point[0]][one_point[1]]*Inf
+          //g[one_point[0]][one_point[1]+1] = GRID[one_point[0]][one_point[1]]*Inf
+          UpdateVertex(new Vector(one_point[0],one_point[1]))
+      }
+      ComputeShortestPath();
+      
+    }
+
+    //delay(100)
+  //}
+}
