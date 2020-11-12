@@ -581,9 +581,9 @@ function delay(ms) {
 function Reset() {
 
   km = 0 
-  //s_start   = new Vector(0,0);
-  //s_current = new Vector(0,0);
-  //s_goal   = new Vector(6,7);
+  s_start   = new Vector(0,0);
+  s_current = new Vector(0,0);
+  s_goal    = new Vector(6,7);
 
   queue = new PriorityQueue((a, b) => comp(a[1],b[1]));
   km = 0;
