@@ -8,11 +8,11 @@
  * 
  *  **/
 
+var GridLength = 50
 
 
-
-var GRID = [...Array(100)].map(e => Array(100).fill(0));
-var myPath = [...Array(100)].map(e => Array(100).fill(0));
+var GRID = [...Array(GridLength)].map(e => Array(GridLength).fill(0));
+var myPath = [...Array(GridLength)].map(e => Array(GridLength).fill(0));
 var lastx = 0
 var lasty = 0
 
@@ -30,7 +30,7 @@ var fps=3;
 
 var GridSize=50;
 var Zoom=1;
-var Background=[100,245];
+var Background=[GridLength,245];
 var autorun = false;
 
 
@@ -211,7 +211,7 @@ var count =0
 function UpdateVertex(u){
 
   //console.log("==> Update Vertex")
-  if ( u.x < 0 || u.x > 100 || u.y < 0 || u.y > 100){
+  if ( u.x < 0 || u.x > GridLength || u.y < 0 || u.y > GridLength){
     //console.log("Stopped Unexpectedly",u)
     return -1
   }
@@ -219,10 +219,10 @@ function UpdateVertex(u){
   if(!isVectorEqual(u,s_goal)){
         //n = [[0,1],[1,0],[-1,0],[0,-1]]
         let c1,c2,c3,c4;
-        if(u.y+1 > 100 || GRID[u.x][u.y+1]) c1 = Inf
+        if(u.y+1 > GridLength || GRID[u.x][u.y+1]) c1 = Inf
         else  c1 = g[u.x  ][u.y+1] + 1 + GRID[u.x][u.y]*Inf
         
-        if(u.x+1 > 100 || GRID[u.x+1][u.y]) c2 = Inf 
+        if(u.x+1 > GridLength || GRID[u.x+1][u.y]) c2 = Inf 
         else  c2 = g[u.x+1][u.y  ] + 1 + GRID[u.x][u.y]*Inf
         
         if(u.x-1 < 0 || GRID[u.x-1][u.y]) c3 = Inf
@@ -283,8 +283,8 @@ function ComputeShortestPath(){
 s_last = new Vector(s_start.x,s_start.y)
 var queue = new PriorityQueue((a, b) => comp(a[1],b[1]));
 var km = 0;
-var rhs = [...Array(100)].map(e => Array(100).fill(Inf));
-var g   = [...Array(100)].map(e => Array(100).fill(Inf)); 
+var rhs = [...Array(GridLength)].map(e => Array(GridLength).fill(Inf));
+var g   = [...Array(GridLength)].map(e => Array(GridLength).fill(Inf)); 
 
 function find(){
   s_last = new Vector(s_start.x,s_start.y)
@@ -300,8 +300,8 @@ function find(){
 
 //ComputeShortestPath()
 /*
-queue.push([[0,1],[100,2]]);
-queue.push([[0,2],[100,3]]);
+queue.push([[0,1],[GridLength,2]]);
+queue.push([[0,2],[GridLength,3]]);
 queue.push([[1,1],[99,3]]);
 queue.push([[4,2],[101,3]]);
 
@@ -427,13 +427,13 @@ function draw() {
 
 
   fill(55);
-  rect(windowWidth/2 - 50, 100 - 80, 200,30);
+  rect(windowWidth/2 - 50, GridLength - 80, 200,30);
   fill(255, 255, 255);
   textSize(17);
-  text(current_instruction, windowWidth/2 - 50 + 20 , 100 - 80 + 5, 200,30); // Text wraps within text box
+  text(current_instruction, windowWidth/2 - 50 + 20 , GridLength - 80 + 5, 200,30); // Text wraps within text box
 
   fill(233, 255, 255);
-  rect(windowWidth/2 + 10 , 100 - 60, 320,20);
+  rect(windowWidth/2 + 10 , GridLength - 60, 320,20);
   fill(0);
   textSize(13);
 
@@ -444,7 +444,7 @@ function draw() {
   /*
   push();
   let fps = frameRate();
-  fill(100);
+  fill(GridLength);
   stroke(1);
   text("FPS: " + fps.toFixed(2),  9*width/10, 9*height/10 -20*5);
   pop();
@@ -509,7 +509,7 @@ function mouseReleased() {
 
 
 
-    var tempGRID = [...Array(100)].map(e => Array(100).fill(0));
+    var tempGRID = [...Array(GridLength)].map(e => Array(GridLength).fill(0));
     console.log(" <= mouse released ",floor(mouseX/blocksize),floor(mouseY/blocksize))
 
     for(let bbx   = floor(xOffset/blocksize); bbx <= floor(mouseX/blocksize); bbx+=1){
@@ -524,8 +524,8 @@ function mouseReleased() {
         
       }
     }
-    for(let bbx   = 0; bbx < 100; bbx+=1){
-      for(let bby = 0; bby < 100; bby+=1){
+    for(let bbx   = 0; bbx < GridLength; bbx+=1){
+      for(let bby = 0; bby < GridLength; bby+=1){
         let xoff = bbx
         let yoff = bby
       
@@ -587,31 +587,31 @@ function Reset() {
 
   queue = new PriorityQueue((a, b) => comp(a[1],b[1]));
   km = 0;
-  rhs = [...Array(100)].map(e => Array(100).fill(Inf));
-  g   = [...Array(100)].map(e => Array(100).fill(Inf)); 
+  rhs = [...Array(GridLength)].map(e => Array(GridLength).fill(Inf));
+  g   = [...Array(GridLength)].map(e => Array(GridLength).fill(Inf)); 
   rhs[s_goal.x][s_goal.y] = 0;
   queue.push([[s_goal.x,s_goal.y],CalculateKey(s_goal)]);
 
-  //GRID = [...Array(100)].map(e => Array(100).fill(0));
-  myPath = [...Array(100)].map(e => Array(100).fill(0));
+  //GRID = [...Array(GridLength)].map(e => Array(GridLength).fill(0));
+  myPath = [...Array(GridLength)].map(e => Array(GridLength).fill(0));
   s_current = new Vector(s_start.x,s_start.y)
 }
 function Traverse(pos){
-    if(pos.x < 0 || pos.x >100 || pos.y < 0 || pos.y >100 || pos==s_goal){
+    if(pos.x < 0 || pos.x >GridLength || pos.y < 0 || pos.y >GridLength || pos==s_goal){
       return;
     }
     myPath[pos.x][pos.y] = 1
 }
 
 function give_rhs(x,y){
-  if(x < 0 || x >100 || y < 0 || y >100)return Inf
+  if(x < 0 || x >GridLength || y < 0 || y >GridLength)return Inf
 
   return rhs[x][y];
 
 }
 
 function give_g(x,y){
-  if(x < 0 || x >100 || y < 0 || y >100)return Inf
+  if(x < 0 || x >GridLength || y < 0 || y >GridLength)return Inf
 
   return g[x][y];
 
@@ -681,6 +681,6 @@ function continous(){
       
     }
 
-    //delay(100)
+    //delay(GridLength)
   //}
 }
