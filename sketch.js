@@ -210,7 +210,7 @@ function CalculateKey(s){
 var count =0
 function UpdateVertex(u){
 
-  //console.log("==> Update Vertex")
+  console.log(" 💃 ==> Update Vertex " + str(u.x) + "," + str(u.y));
   if ( u.x < 0 || u.x > GridLength || u.y < 0 || u.y > GridLength){
     //console.log("Stopped Unexpectedly",u)
     return -1
@@ -254,12 +254,15 @@ function ComputeShortestPath(){
       let u   = queue.pop()[0]
       u       = new Vector(u[0],u[1])
 
-      
+      console.log(" <= "+str(u.x) +","+str(u.y));
+      console.log(k_old);
+
       if(k_old < CalculateKey(u)){
         queue.push([[u.x,u.y],CalculateKey(u)])
       }else if(g[u.x][u.y] > rhs[u.x][u.y]){
         g[u.x][u.y] = rhs[u.x][u.y]
         
+        console.log(" => g[u.x][u.y] > rhs[u.x][u.y]");
         UpdateVertex(new Vector(u.x,u.y+1))
         UpdateVertex(new Vector(u.x+1,u.y))
         UpdateVertex(new Vector(u.x  ,u.y-1))
@@ -268,6 +271,7 @@ function ComputeShortestPath(){
       }else{
         g[u.x][u.y] = Inf
        
+        console.log(" => else");
         UpdateVertex(u)
         UpdateVertex(new Vector(u.x  ,u.y+1))
         UpdateVertex(new Vector(u.x+1,u.y))
@@ -339,6 +343,9 @@ function setup() {
   });
   gui.addButton("NextStep", function() {
     Execute();
+  });
+  gui.addButton("Write Grid to Text", function() {
+    OutputGRID();
   });
   gui.addGlobals('autorun');
 
@@ -615,6 +622,10 @@ function give_g(x,y){
 
   return g[x][y];
 
+}
+
+function OutputGRID(){
+  saveStrings(GRID, 'grid.txt');
 }
 
 function Execute(){
