@@ -7,3 +7,15 @@ cpp_viz/build_web/lib/
 *.cmake
 Makefile
 .DS_Store
+settings.json
+dummy
+CMakeCache.txt
+CopyOfCMakeCache.txt
+CMakeLists.txt
+data
+index
+read
+d_star_lite
+a.out
+do
+.DS_Store
