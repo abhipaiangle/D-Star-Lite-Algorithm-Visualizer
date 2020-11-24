@@ -1,0 +1,9 @@
+emsdk/
+cpp_viz/lib/
+cpp_viz/build_native/lib/
+cpp_viz/build_native/CMakeFiles/
+cpp_viz/build_web/CMakeFiles/
+cpp_viz/build_web/lib/
+*.cmake
+Makefile
+.DS_Store
