@@ -32,7 +32,7 @@ struct vertex{  //Stores a vertex along with k1,k2 Costs
 };
 vertex::vertex(int p_x,int p_y,float p_k1, float p_k2):x{p_x},y{p_y},k1{p_k1},k2{p_k2}{}
 //Goal & start
-vertex s_goal(10,14,0,0);
+vertex s_goal(25,25,0,0);
 vertex s_start(0,0,0,0);
 vertex s_last(0,0,0,0);
 int km = 0;
@@ -437,6 +437,7 @@ double step_cost(int x,int y){
 }
 
 void onestep(){
+    
     double c_cost = g[s_last.x][s_last.y];
     
     double arr[8] = {};
@@ -462,13 +463,12 @@ void onestep(){
 void App::keyPressed(int key){
     cout<<key<<endl;
     //g.rect(100, 100, 400, 400);
-    if(key==92){
+    if(key==92){ //run algo 
         run();
     }
-    if(key==47){
 
-    }
     if(key==257){
+        if(g[s_start.x][s_start.y]==Inf)run();
         onestep();
     }
     if(key==82){
@@ -504,18 +504,17 @@ void App::keyPressed(int key){
 }
 
 void App::mouseMoved(int x, int y){
-    //cout<<" => "<<x<<","<<y<<endl;
     mouseX = x;
     mouseY = y;
 }
 
 
 void App::mousePressed(int button){
-    cout<<"yooo";
-    int blocksize = int(height/grid_s_y);
 
-    int x_pos = mouseX/blocksize;
-    int y_pos = mouseY/blocksize;
+    int blocksize = int(height/grid_s_y);
+    
+    int x_pos = int(mouseX/blocksize);
+    int y_pos = int(mouseY/blocksize);
 
     if(GRID[y_pos][x_pos]==1){
         GRID[y_pos][x_pos]=0;
@@ -528,10 +527,13 @@ void App::mousePressed(int button){
 
 void App::draw(piksel::Graphics& gcanvas) {
     int blocksize = int(height/grid_s_y);
-    gcanvas.background(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+    //int left_align = width - blocksize*grid_s_x + 250;
 
-    for(int x=0;x     < int(height/grid_s_x)*grid_s_x -100; x+=int(height/grid_s_x)){
-        for(int y=0;y < int(height/grid_s_x)*grid_s_y -100;  y+=int(height/grid_s_y)){
+
+    gcanvas.background(glm::vec4(0.1171875f, 0.1171875f, 0.1171875f,1.0f));
+
+    for(int x=0;x     < blocksize*grid_s_x ;  x+=blocksize){
+        for(int y=0;y < blocksize*grid_s_y ;  y+=blocksize){
             int x_pos = x/blocksize;
             int y_pos = y/blocksize;
 
@@ -554,6 +556,8 @@ void App::draw(piksel::Graphics& gcanvas) {
         }   
     }
     if(enabled){
+        if(s_last.x < 0 || s_last.x > grid_s_x || s_last.y < 0 || s_last.y >grid_s_y)enabled=0;
+
         if(s_last.x!=s_goal.x or s_last.y!=s_goal.y){
             onestep();
             sleep_until(system_clock::now() + nanoseconds(40000000));
@@ -569,13 +573,14 @@ void App::draw(piksel::Graphics& gcanvas) {
         }
     }
     
-
+    gcanvas.fill(glm::vec4(1, 1, 1, 1.0f));
     gcanvas.textSize(16);
-    
-    
-    gcanvas.text("Press 'r' to start traversing! Press 'space' to reset",50,750);
-
+    gcanvas.text("Press 'r' to start traversing!",810,70);
+    gcanvas.text("Press 'Enter' to make one step",810,100);
+    gcanvas.text("Press 'space' to reset path",810,160);
+    gcanvas.text("Press 'F' to Fill grid randomly",810,190);
+    gcanvas.text("Press 'C' to Clear grid ",810,220);
     gcanvas.fill(glm::vec4(r, !r, 0.0f, 1.0f));
-    gcanvas.text(msg,50,720);
+    gcanvas.text(msg,810,30);
    
 }

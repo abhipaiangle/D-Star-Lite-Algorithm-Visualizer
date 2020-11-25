@@ -5,7 +5,7 @@
 
 class App : public piksel::BaseApp {
 public:
-    App() : piksel::BaseApp(1080-300, 1080-300) {}
+    App() : piksel::BaseApp(1280, 900-200) {}
     void setup();
     void draw(piksel::Graphics& gcanvas);
     void keyPressed(int key);
