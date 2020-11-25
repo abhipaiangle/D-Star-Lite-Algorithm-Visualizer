@@ -187,7 +187,7 @@ var Module = typeof Module !== 'undefined' ? Module : {};
     }
   
    }
-   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/.DS_Store", "start": 0, "end": 6148, "audio": 0}, {"filename": "/data/in.in", "start": 6148, "end": 11147, "audio": 0}], "remote_package_size": 11147, "package_uuid": "99b7f5c6-4b85-4b9c-9f5f-ca49174902d6"});
+   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/.DS_Store", "start": 0, "end": 6148, "audio": 0}, {"filename": "/data/in.in", "start": 6148, "end": 11147, "audio": 0}], "remote_package_size": 11147, "package_uuid": "7c0b41c0-0ac5-48f6-9300-c14e194d563b"});
   
   })();
   
@@ -1790,8 +1790,8 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  23179: function() {var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px';},  
- 23931: function() {setTimeout(function() { var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px'; }, 0);}
+  23307: function() {var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px';},  
+ 24059: function() {setTimeout(function() { var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px'; }, 0);}
 };
 
 

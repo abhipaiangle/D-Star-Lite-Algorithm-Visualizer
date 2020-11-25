@@ -12,10 +12,11 @@
 #include <sstream>
 #include <chrono>
 #include <thread>
+#include <random>
 
 #define FRAMES_PER_SECOND 5
 
-double Inf = 10e9;
+double Inf = 10e3;
 using namespace std;
 using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
@@ -163,6 +164,14 @@ bool isCostLower(vertex b, vertex a){
 }
 
 vertex CalculateKey(vertex s){
+    //cout<<"✨";
+    if(s.x < 0 || s.x > grid_s_x || s.y < 0 || s.y > grid_s_y){
+        s.k1 = Inf;
+        s.k2 = Inf;
+        return s;
+    }
+
+
     double k1  = min(g[s.x][s.y],rhs[s.x][s.y]) + h(s_start,s) + km;
     double k2  = min(g[s.x][s.y],rhs[s.x][s.y]);
 
@@ -183,28 +192,30 @@ void UpdateVertex(vertex u){
 
     if(!isVertexEqual(u,s_goal)){
         double c1,c2,c3,c4,c5,c6,c7,c8;
-        
-        c1 = g[u.x  ][u.y+1] + 1     + GRID[u.x][u.y]*Inf + GRID[u.x  ][u.y+1]*Inf;
-        c2 = g[u.x+1][u.y  ] + 1     + GRID[u.x][u.y]*Inf + GRID[u.x+1][u.y]*Inf;
-        c3 = g[u.x  ][u.y-1] + 1     + GRID[u.x][u.y]*Inf + GRID[u.x  ][u.y-1]*Inf;
-        c4 = g[u.x-1][u.y]   + 1     + GRID[u.x][u.y]*Inf + GRID[u.x-1][u.y  ]*Inf;
-        c5 = g[u.x-1][u.y-1] + 1.414 + GRID[u.x][u.y]*Inf + GRID[u.x-1][u.y-1]*Inf;
-        c6 = g[u.x-1][u.y+1] + 1.414 + GRID[u.x][u.y]*Inf + GRID[u.x-1][u.y+1]*Inf;
-        c7 = g[u.x+1][u.y-1] + 1.414 + GRID[u.x][u.y]*Inf + GRID[u.x+1][u.y-1]*Inf;
-        c8 = g[u.x+1][u.y+1] + 1.414 + GRID[u.x][u.y]*Inf + GRID[u.x+1][u.y+1]*Inf;
 
-        if(u.y+1 > grid_s_y){
-            c1 = Inf; c6 = Inf; c8 = Inf; 
-        }
-        if(u.x+1 > grid_s_x){
-            c2 = Inf; c7 = Inf; c8 = Inf; 
-        }
-        if(u.y-1 < 0       ){
-            c3 = Inf; c5 = Inf; c7 = Inf; 
-        }
-        if(u.x-1 < 0       ){
-            c4 = Inf; c5 = Inf; c6 = Inf; 
-        }
+        if(u.y+1 > grid_s_y)c1 = Inf;
+        else c1 = g[u.x  ][u.y+1] + 1     + (GRID[u.x][u.y] + GRID[u.x  ][u.y+1])*Inf;
+
+        if(u.x+1 > grid_s_x)c2 = Inf;
+        else c2 = g[u.x+1][u.y  ] + 1     + (GRID[u.x][u.y] + GRID[u.x+1][u.y]  )*Inf;
+
+        if(u.y-1 < 0) c3 = Inf;
+        else c3 = g[u.x  ][u.y-1] + 1     + (GRID[u.x][u.y] + GRID[u.x  ][u.y-1])*Inf;
+
+        if(u.x-1 < 0) c4 = Inf;
+        else c4 = g[u.x-1][u.y]   + 1     + (GRID[u.x][u.y] + GRID[u.x-1][u.y  ])*Inf;
+
+        if(u.x-1 < 0 || u.y - 1 < 0) c5 = Inf;
+        else c5 = g[u.x-1][u.y-1] + 1.414 + (GRID[u.x][u.y] + GRID[u.x-1][u.y-1])*Inf;
+
+        if(u.x-1 < 0 || u.y + 1 > grid_s_y) c6 = Inf;
+        else c6 = g[u.x-1][u.y+1] + 1.414 + (GRID[u.x][u.y] + GRID[u.x-1][u.y+1])*Inf;
+
+        if(u.x + 1 > grid_s_x || u.y - 1 < 0) c7 = Inf;
+        else c7 = g[u.x+1][u.y-1] + 1.414 + (GRID[u.x][u.y] + GRID[u.x+1][u.y-1])*Inf;
+
+        if(u.x + 1 > grid_s_x || u.y + 1 > grid_s_y) c8 = Inf;
+        else c8 = g[u.x+1][u.y+1] + 1.414 + (GRID[u.x][u.y] + GRID[u.x+1][u.y+1])*Inf;
 
         rhs[u.x][u.y] = min(min(min(c3,c4),min(c1,c2)),min(min(c7,c8),min(c5,c6)));
     }
@@ -250,6 +261,7 @@ void ComputeShortestPath(){
         rhs[s_start.x][s_start.y] != g[s_start.x][s_start.y])
     {
 
+        cout<<"🍀 => "<<U.size();
         vertex k_old = TopKey();
         pop();
         vertex u     = k_old;
@@ -311,19 +323,41 @@ void fillGRID(){
     }
     textfile.close();
 }
-void reset(){
+
+void fillGRID_(bool random=0){
+
+    if(random){
+        for(int i=0;i < grid_s_x;i++)
+            for(int j=0;j<grid_s_y;j++)
+                GRID[i][j] = rand() & 1;
+    }else{
+        for(int i=0;i < grid_s_x;i++)
+            for(int j=0;j<grid_s_y;j++)
+                GRID[i][j] = 0;
+    }
+    GRID[s_goal.x][s_goal.y] = 0;
+    
+}
+void initiliaze(){
     s_last = s_start;
 
     while(U.size()){
         U.pop();
     }
 
+    km = 0;
     for(int i=0;i < grid_s_x;i++)
-        for(int j=0;j<grid_s_y;j++)
-            PATH[i][j]=0;
+        for(int j=0;j<grid_s_y;j++){
+            rhs[i][j] = Inf;
+              g[i][j] = Inf;
+            PATH[i][j]= 0;
+        }
+    rhs[s_goal.x][s_goal.y] = 0;
 }
 
 void run(){
+    initiliaze();
+    
     cout<<"Successfully loaded GRID"<<endl;
 
     for(int k=0;k<20;k++){
@@ -332,37 +366,32 @@ void run(){
         } 
         cout<<endl;
     }
-
-    km = 0;
-    for(int i=0;i < grid_s_x;i++)
-        for(int j=0;j<grid_s_y;j++){
-            rhs[i][j] = Inf;
-              g[i][j] = Inf;
-        }
-    rhs[s_goal.x][s_goal.y] = 0;
-
-    
-    
+    cout<<"Priority Queue Size = "<<U.size()<<endl;
 
     s_goal = CalculateKey(s_goal);
+    cout<<"going to push to queue...";
     pushToQueue(s_goal);
-    
+    cout<<"going to compute shortest path...";
     ComputeShortestPath();
-    //showpq(U);
 
-    cout<<"Successfully Computed Cost => ";
-    /*
+    //while(s_goal.x!=s_start.x || s_goal.y!=s_start.y){
+
+
+    //}
+
+    cout<<"Successfully Computed Cost => \n";
+    
     for(int k=0;k<40;k++){
         for(int m=0;m<40;m++){
             if(g[k][m]>=Inf)cout<<"XX ";
             else {
-                if(g[k][m]<10)cout<<" "<<g[k][m]<<" ";
-                else cout<<g[k][m]<<" ";
+                if(g[k][m]<10)cout<<" "<<int(g[k][m])<<" ";
+                else cout<<int(g[k][m])<<" ";
             }
         } 
         cout<<endl;
     }
-    */
+    
     cout<<g[s_start.x][s_start.y]<<endl;
 
   
@@ -370,11 +399,12 @@ void run(){
 void App::setup() {
     // load fonts and images here
     cout<<"Starting!";
+
     run();
 }
 
 void Traverse(vertex pos){
-    if(pos.x < 0 || pos.x > grid_s_x || pos.y < 0 || pos.y >grid_s_y){
+    if(pos.x < 0 || pos.x > grid_s_x || pos.y < 0 || pos.y > grid_s_y){
       return;
     }
     PATH[pos.x][pos.y] = 1;
@@ -401,16 +431,26 @@ bool r = 0;
 int mouseX;
 int mouseY;
 
+double step_cost(int x,int y){
+    if(x < 0 || x > grid_s_x || y < 0 || y > grid_s_y){
+        return Inf;
+    }else return g[x][y];
+}
+
 void onestep(){
     double c_cost = g[s_last.x][s_last.y];
     
     double arr[8] = {};
-    for(int i=0; i<8; i++)arr[i] = g[s_last.x + moves[i][0]][s_last.y + moves[i][1]];
+    for(int i=0; i<8; i++){ 
+        arr[i] = step_cost(s_last.x + moves[i][0],s_last.y + moves[i][1]);
+        cout<<arr[i]<<",";
+    }
+    cout<<" ✨ "<<s_last.x<<","<<s_last.y<<endl;
+
 
     int min_index = indexofSmallestElement(arr);
-    //printf("%s",moves_d[min_index].c_str());
-    out+=moves_d[min_index];
-    //cout<<moves_d[min_index]<<"\n";
+
+    out += moves_d[min_index];
 
     s_last.x = s_last.x + moves[min_index][0];
     s_last.y = s_last.y + moves[min_index][1];
@@ -423,23 +463,45 @@ void onestep(){
 void App::keyPressed(int key){
     cout<<key<<endl;
     //g.rect(100, 100, 400, 400);
+    if(key==92){
+        run();
+    }
+    if(key==47){
+        cout<<g[-1][-1]<<endl;
+        cout<<g[-2][-1]<<endl;
+        cout<<g[1][-1]<<endl;
+        cout<<g[-1][1]<<endl;
+    }
     if(key==257){
         onestep();
     }
     if(key==82){
+        cout<<"🏃‍♀️"<<endl;
         run();
+        out = "";
+        
         if(g[s_start.x][s_start.y]>=Inf){
             msg="No Path Exists! :( ";
+            enabled = 0;
             r = 1;
         }
         cout<<"\n";
         enabled = 2;
     }
-    if(key==32){
+    if(key==32){  //space bar => clear
         r = 0;
         msg =" ";
         enabled = 0;
-        reset();
+        initiliaze();
+    }
+
+    if(key==70){  // F => random
+        initiliaze();
+        fillGRID_(1);
+    }
+    if(key==67){  // C => clear
+        initiliaze();
+        fillGRID_();
     }
 }
 
