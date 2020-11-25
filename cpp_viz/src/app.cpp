@@ -223,7 +223,6 @@ void UpdateVertex(vertex u){
         Ukey[u.x][u.y] = 0; //remove from Priority Queue
     } 
     if(rhs[u.x][u.y]!=g[u.x][u.y]){
-        cout<<" => "<<u.x<<","<<u.y<<","<<u.k1<<","<<u.k2<<endl;
         pushToQueue(u);
     }
 }
@@ -261,7 +260,7 @@ void ComputeShortestPath(){
         rhs[s_start.x][s_start.y] != g[s_start.x][s_start.y])
     {
 
-        cout<<"🍀 => "<<U.size();
+        //cout<<"🍀 => "<<U.size();
         vertex k_old = TopKey();
         pop();
         vertex u     = k_old;
@@ -380,7 +379,7 @@ void run(){
     //}
 
     cout<<"Successfully Computed Cost => \n";
-    
+    /*
     for(int k=0;k<40;k++){
         for(int m=0;m<40;m++){
             if(g[k][m]>=Inf)cout<<"XX ";
@@ -390,7 +389,7 @@ void run(){
             }
         } 
         cout<<endl;
-    }
+    }*/
     
     cout<<g[s_start.x][s_start.y]<<endl;
 
@@ -399,7 +398,6 @@ void run(){
 void App::setup() {
     // load fonts and images here
     cout<<"Starting!";
-
     run();
 }
 
@@ -443,7 +441,7 @@ void onestep(){
     double arr[8] = {};
     for(int i=0; i<8; i++){ 
         arr[i] = step_cost(s_last.x + moves[i][0],s_last.y + moves[i][1]);
-        cout<<arr[i]<<",";
+        //cout<<arr[i]<<",";
     }
     cout<<" ✨ "<<s_last.x<<","<<s_last.y<<endl;
 
@@ -467,10 +465,7 @@ void App::keyPressed(int key){
         run();
     }
     if(key==47){
-        cout<<g[-1][-1]<<endl;
-        cout<<g[-2][-1]<<endl;
-        cout<<g[1][-1]<<endl;
-        cout<<g[-1][1]<<endl;
+
     }
     if(key==257){
         onestep();
