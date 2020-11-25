@@ -484,9 +484,10 @@ void App::keyPressed(int key){
             msg="No Path Exists! :( ";
             enabled = 0;
             r = 1;
+        }else{
+            cout<<"\n";
+            enabled = 2;
         }
-        cout<<"\n";
-        enabled = 2;
     }
     if(key==32){  //space bar => clear
         r = 0;
