@@ -537,13 +537,15 @@ void App::draw(piksel::Graphics& gcanvas) {
             int x_pos = x/blocksize;
             int y_pos = y/blocksize;
 
-            if(GRID[x_pos][y_pos]==1){
-                gcanvas.fill(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-            }else{
+
+            if(GRID[x_pos][y_pos]==0){
                 gcanvas.fill(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
             }
             if(PATH[x_pos][y_pos]==1){
                 gcanvas.fill(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+            }
+            if(GRID[x_pos][y_pos]==1){
+                gcanvas.fill(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
             }
             if(s_goal.x==x_pos && s_goal.y==y_pos){
                 gcanvas.fill(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
