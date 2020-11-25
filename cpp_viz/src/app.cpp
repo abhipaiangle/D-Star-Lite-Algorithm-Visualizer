@@ -184,19 +184,27 @@ void UpdateVertex(vertex u){
     if(!isVertexEqual(u,s_goal)){
         double c1,c2,c3,c4,c5,c6,c7,c8;
         
-        c1 = g[u.x  ][u.y+1] + 1 + GRID[u.x][u.y]*Inf;
-        c2 = g[u.x+1][u.y  ] + 1 + GRID[u.x][u.y]*Inf;
-        c3 = g[u.x  ][u.y-1] + 1 + GRID[u.x][u.y]*Inf;
-        c4 = g[u.x-1][u.y]   + 1 + GRID[u.x][u.y]*Inf;
-        c5 = g[u.x-1][u.y-1] + 1.414 + GRID[u.x][u.y]*Inf;
-        c6 = g[u.x-1][u.y+1] + 1.414 + GRID[u.x][u.y]*Inf;
-        c7 = g[u.x+1][u.y-1] + 1.414 + GRID[u.x][u.y]*Inf;
-        c8 = g[u.x+1][u.y+1] + 1.414 + GRID[u.x][u.y]*Inf;
+        c1 = g[u.x  ][u.y+1] + 1     + GRID[u.x][u.y]*Inf + GRID[u.x  ][u.y+1]*Inf;
+        c2 = g[u.x+1][u.y  ] + 1     + GRID[u.x][u.y]*Inf + GRID[u.x+1][u.y]*Inf;
+        c3 = g[u.x  ][u.y-1] + 1     + GRID[u.x][u.y]*Inf + GRID[u.x  ][u.y-1]*Inf;
+        c4 = g[u.x-1][u.y]   + 1     + GRID[u.x][u.y]*Inf + GRID[u.x-1][u.y  ]*Inf;
+        c5 = g[u.x-1][u.y-1] + 1.414 + GRID[u.x][u.y]*Inf + GRID[u.x-1][u.y-1]*Inf;
+        c6 = g[u.x-1][u.y+1] + 1.414 + GRID[u.x][u.y]*Inf + GRID[u.x-1][u.y+1]*Inf;
+        c7 = g[u.x+1][u.y-1] + 1.414 + GRID[u.x][u.y]*Inf + GRID[u.x+1][u.y-1]*Inf;
+        c8 = g[u.x+1][u.y+1] + 1.414 + GRID[u.x][u.y]*Inf + GRID[u.x+1][u.y+1]*Inf;
 
-        if(u.y+1 > grid_s_y || GRID[u.x][u.y+1]==1){c1 = Inf; c6 = Inf; c8 = Inf; }
-        if(u.x+1 > grid_s_x || GRID[u.x+1][u.y]==1){c2 = Inf; c7 = Inf; c8 = Inf; }
-        if(u.y-1 < 0        || GRID[u.x][u.y-1]==1){c3 = Inf; c5 = Inf; c7 = Inf; }
-        if(u.x-1 < 0        || GRID[u.x-1][u.y]==1){c4 = Inf; c5 = Inf; c6 = Inf; }
+        if(u.y+1 > grid_s_y){
+            c1 = Inf; c6 = Inf; c8 = Inf; 
+        }
+        if(u.x+1 > grid_s_x){
+            c2 = Inf; c7 = Inf; c8 = Inf; 
+        }
+        if(u.y-1 < 0       ){
+            c3 = Inf; c5 = Inf; c7 = Inf; 
+        }
+        if(u.x-1 < 0       ){
+            c4 = Inf; c5 = Inf; c6 = Inf; 
+        }
 
         rhs[u.x][u.y] = min(min(min(c3,c4),min(c1,c2)),min(min(c7,c8),min(c5,c6)));
     }
