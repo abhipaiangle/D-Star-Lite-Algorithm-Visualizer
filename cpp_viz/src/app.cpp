@@ -303,12 +303,19 @@ void fillGRID(){
     }
     textfile.close();
 }
+void reset(){
+    s_last = s_start;
 
+    while(U.size()){
+        U.pop();
+    }
+
+    for(int i=0;i < grid_s_x;i++)
+        for(int j=0;j<grid_s_y;j++)
+            PATH[i][j]=0;
+}
 
 void run(){
-
-    //Initialize
-    //fillGRID();
     cout<<"Successfully loaded GRID"<<endl;
 
     for(int k=0;k<20;k++){
@@ -326,7 +333,7 @@ void run(){
         }
     rhs[s_goal.x][s_goal.y] = 0;
 
-
+    
     
 
     s_goal = CalculateKey(s_goal);
@@ -398,26 +405,57 @@ void onestep(){
 }
 
 bool enabled = 0;
+
+int mouseX;
+int mouseY;
+
+
 void App::keyPressed(int key){
-    //cout<<key<<endl;
+    cout<<key<<endl;
     //g.rect(100, 100, 400, 400);
     if(key==257){
         onestep();
     }
     if(key==82){
+        run();
         cout<<"\n";
         enabled = 2;
     }
-
+    if(key==32){
+        enabled = 0;
+        reset();
+    }
 }
 
-void App::draw(piksel::Graphics& g) {
+void App::mouseMoved(int x, int y){
+    //cout<<" => "<<x<<","<<y<<endl;
+    mouseX = x;
+    mouseY = y;
+}
 
+
+void App::mousePressed(int button){
+    cout<<"yooo";
+    int blocksize = int(height/grid_s_y);
+
+    int x_pos = mouseX/blocksize;
+    int y_pos = mouseY/blocksize;
+
+    if(GRID[y_pos][x_pos]==1){
+        GRID[y_pos][x_pos]=0;
+    }else{
+        GRID[y_pos][x_pos]=1;
+    }
+}
+
+
+
+void App::draw(piksel::Graphics& g) {
+    int blocksize = int(height/grid_s_y);
 
     for(int x=0;x     < int(height/grid_s_x)*grid_s_x -100; x+=int(height/grid_s_x)){
         for(int y=0;y < int(height/grid_s_x)*grid_s_y -100;  y+=int(height/grid_s_y)){
 
-            int blocksize = int(height/grid_s_y);
             int x_pos = x/blocksize;
             int y_pos = y/blocksize;
 
@@ -451,6 +489,6 @@ void App::draw(piksel::Graphics& g) {
     }
     g.textSize(16);
     g.fill(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    g.text("Press 'r' to start traversing!",50,750);
+    g.text("Press 'r' to start traversing! Press 'space' to reset",50,750);
    
 }
