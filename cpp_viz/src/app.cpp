@@ -79,13 +79,13 @@ bool GRID[grid_s_x][grid_s_y]=
 {0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -182,19 +182,23 @@ void UpdateVertex(vertex u){
 
 
     if(!isVertexEqual(u,s_goal)){
-        double c1,c2,c3,c4;
+        double c1,c2,c3,c4,c5,c6,c7,c8;
         
         c1 = g[u.x  ][u.y+1] + 1 + GRID[u.x][u.y]*Inf;
         c2 = g[u.x+1][u.y  ] + 1 + GRID[u.x][u.y]*Inf;
         c3 = g[u.x  ][u.y-1] + 1 + GRID[u.x][u.y]*Inf;
         c4 = g[u.x-1][u.y]   + 1 + GRID[u.x][u.y]*Inf;
+        c5 = g[u.x-1][u.y-1] + 1.414 + GRID[u.x][u.y]*Inf;
+        c6 = g[u.x-1][u.y+1] + 1.414 + GRID[u.x][u.y]*Inf;
+        c7 = g[u.x+1][u.y-1] + 1.414 + GRID[u.x][u.y]*Inf;
+        c8 = g[u.x+1][u.y+1] + 1.414 + GRID[u.x][u.y]*Inf;
 
-        if(u.y+1 > grid_s_y || GRID[u.x][u.y+1]==1)c1 = Inf;
-        if(u.x+1 > grid_s_x || GRID[u.x+1][u.y]==1)c2 = Inf;
-        if(u.y-1 < 0        || GRID[u.x][u.y-1]==1)c3 = Inf;
-        if(u.x-1 < 0        || GRID[u.x-1][u.y]==1)c4 = Inf;
+        if(u.y+1 > grid_s_y || GRID[u.x][u.y+1]==1){c1 = Inf; c6 = Inf; c8 = Inf; }
+        if(u.x+1 > grid_s_x || GRID[u.x+1][u.y]==1){c2 = Inf; c7 = Inf; c8 = Inf; }
+        if(u.y-1 < 0        || GRID[u.x][u.y-1]==1){c3 = Inf; c5 = Inf; c7 = Inf; }
+        if(u.x-1 < 0        || GRID[u.x-1][u.y]==1){c4 = Inf; c5 = Inf; c6 = Inf; }
 
-        rhs[u.x][u.y] = min(min(c3,c4),min(c1,c2));
+        rhs[u.x][u.y] = min(min(min(c3,c4),min(c1,c2)),min(min(c7,c8),min(c5,c6)));
     }
     u = CalculateKey(u);
     if(isInQueue(u)){
@@ -254,6 +258,11 @@ void ComputeShortestPath(){
             UpdateVertex(vertex(u.x+1 ,u.y  ,0,0));
             UpdateVertex(vertex(u.x   ,u.y-1,0,0));
             UpdateVertex(vertex(u.x-1 ,u.y  ,0,0));
+
+            UpdateVertex(vertex(u.x -1  ,u.y-1,0,0));
+            UpdateVertex(vertex(u.x -1  ,u.y+1,0,0));
+            UpdateVertex(vertex(u.x +1  ,u.y-1,0,0));
+            UpdateVertex(vertex(u.x +1  ,u.y+1,0,0));
         }else{
             g[u.x][u.y] = Inf;
             //cout<<" => else"<<endl;
@@ -264,6 +273,11 @@ void ComputeShortestPath(){
             UpdateVertex(vertex(u.x+1 ,u.y  ,0,0));
             UpdateVertex(vertex(u.x   ,u.y-1,0,0));
             UpdateVertex(vertex(u.x-1 ,u.y  ,0,0));
+
+            UpdateVertex(vertex(u.x -1  ,u.y-1,0,0));
+            UpdateVertex(vertex(u.x -1  ,u.y+1,0,0));
+            UpdateVertex(vertex(u.x +1  ,u.y-1,0,0));
+            UpdateVertex(vertex(u.x +1  ,u.y+1,0,0));
         }
 
 
@@ -319,11 +333,12 @@ void run(){
     pushToQueue(s_goal);
     
     ComputeShortestPath();
-    showpq(U);
+    //showpq(U);
 
-    cout<<"Successfully Computed"<<endl;
-    for(int k=0;k<20;k++){
-        for(int m=0;m<20;m++){
+    cout<<"Successfully Computed Cost => ";
+    /*
+    for(int k=0;k<40;k++){
+        for(int m=0;m<40;m++){
             if(g[k][m]>=Inf)cout<<"XX ";
             else {
                 if(g[k][m]<10)cout<<" "<<g[k][m]<<" ";
@@ -332,6 +347,8 @@ void run(){
         } 
         cout<<endl;
     }
+    */
+    cout<<g[s_start.x][s_start.y]<<endl;
 
   
 }
@@ -348,20 +365,36 @@ void Traverse(vertex pos){
     PATH[pos.x][pos.y] = 1;
 }
 
+int indexofSmallestElement(double array[]){
+    int index = 0;
+
+    for(int i = 1; i < 8; i++){
+        if(array[i] < array[index])
+            index = i;              
+    }
+
+    return index;
+}
+int  moves[8][2] = {{-1,0},{0,-1},{1,0},{0,1},{-1,-1},{-1,1},{1,-1},{1,1}};
+string moves_d[8]  = {"↑","←","↓","→","⬉","⬈","⬋","⬊"};
+string out= "";
+
+
 void onestep(){
     double c_cost = g[s_last.x][s_last.y];
     
-    if(c_cost - g[s_last.x][s_last.y+1]==1){
-        s_last.y +=1;
-    }else if(c_cost - g[s_last.x+1][s_last.y]==1){
-        s_last.x +=1;
-    }else if(c_cost - g[s_last.x][s_last.y-1]==1){
-        s_last.y -=1;
-    }else if(c_cost - g[s_last.x-1][s_last.y]==1){
-        s_last.x -=1;
-    }
-    Traverse(s_last);
+    double arr[8] = {};
+    for(int i=0; i<8; i++)arr[i] = g[s_last.x + moves[i][0]][s_last.y + moves[i][1]];
 
+    int min_index = indexofSmallestElement(arr);
+    //printf("%s",moves_d[min_index].c_str());
+    out+=moves_d[min_index];
+    //cout<<moves_d[min_index]<<"\n";
+
+    s_last.x = s_last.x + moves[min_index][0];
+    s_last.y = s_last.y + moves[min_index][1];
+
+    Traverse(s_last);
 }
 
 bool enabled = 0;
@@ -372,32 +405,34 @@ void App::keyPressed(int key){
         onestep();
     }
     if(key==82){
-        enabled = 1;
+        cout<<"\n";
+        enabled = 2;
     }
 
 }
 
 void App::draw(piksel::Graphics& g) {
 
-    for(int x=0;x < int(height/grid_s_x)*grid_s_x ; x+=int(height/grid_s_x)){
-        for(int y=0;y < int(height/grid_s_x)*grid_s_y; y+=int(height/grid_s_y)){
+
+    for(int x=0;x     < int(height/grid_s_x)*grid_s_x -100; x+=int(height/grid_s_x)){
+        for(int y=0;y < int(height/grid_s_x)*grid_s_y -100;  y+=int(height/grid_s_y)){
 
             int blocksize = int(height/grid_s_y);
+            int x_pos = x/blocksize;
+            int y_pos = y/blocksize;
 
-            if(GRID[x/blocksize][y/blocksize]==1){
+            if(GRID[x_pos][y_pos]==1){
                 g.fill(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
             }else{
                 g.fill(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
             }
-            if(PATH[x/blocksize][y/blocksize]==1){
+            if(PATH[x_pos][y_pos]==1){
                 g.fill(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
             }
-
-            if(s_goal.x==x/blocksize && s_goal.y==y/blocksize){
+            if(s_goal.x==x_pos && s_goal.y==y_pos){
                 g.fill(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
             }
-   
-            if(s_start.x==x/blocksize && s_start.y==y/blocksize){
+            if(s_start.x==x_pos && s_start.y==y_pos){
                 g.fill(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
             }
   
@@ -409,7 +444,13 @@ void App::draw(piksel::Graphics& g) {
         if(s_last.x!=s_goal.x or s_last.y!=s_goal.y){
             onestep();
             sleep_until(system_clock::now() + nanoseconds(40000000));
+        }else{
+            cout<<out<<endl;
+            enabled-=1;
         }
     }
+    g.textSize(16);
+    g.fill(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    g.text("Press 'r' to start traversing!",50,750);
    
 }
