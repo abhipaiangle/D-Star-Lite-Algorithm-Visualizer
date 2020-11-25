@@ -334,7 +334,8 @@ void fillGRID_(bool random=0){
             for(int j=0;j<= grid_s_y;j++)
                 GRID[i][j] = 0;
     }
-    GRID[s_goal.x][s_goal.y] = 0;
+    GRID[s_goal.x ][s_goal.y] = 0;
+    GRID[s_start.x][s_start.y] = 0;
     
 }
 void initiliaze(){
@@ -474,6 +475,7 @@ void App::keyPressed(int key){
         cout<<"🏃‍♀️"<<endl;
         run();
         out = "";
+        r = 0;
         
         if(g[s_start.x][s_start.y]>=Inf){
             msg="No Path Exists! :( ";
