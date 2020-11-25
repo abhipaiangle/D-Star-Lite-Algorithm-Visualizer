@@ -393,7 +393,13 @@ int indexofSmallestElement(double array[]){
 int  moves[8][2] = {{-1,0},{0,-1},{1,0},{0,1},{-1,-1},{-1,1},{1,-1},{1,1}};
 string moves_d[8]  = {"↑","←","↓","→","⬉","⬈","⬋","⬊"};
 string out= "";
+string msg= "";
 
+bool enabled = 0;
+bool r = 0;
+
+int mouseX;
+int mouseY;
 
 void onestep(){
     double c_cost = g[s_last.x][s_last.y];
@@ -412,10 +418,6 @@ void onestep(){
     Traverse(s_last);
 }
 
-bool enabled = 0;
-
-int mouseX;
-int mouseY;
 
 
 void App::keyPressed(int key){
@@ -426,10 +428,16 @@ void App::keyPressed(int key){
     }
     if(key==82){
         run();
+        if(g[s_start.x][s_start.y]>=Inf){
+            msg="No Path Exists! :( ";
+            r = 1;
+        }
         cout<<"\n";
         enabled = 2;
     }
     if(key==32){
+        r = 0;
+        msg =" ";
         enabled = 0;
         reset();
     }
@@ -458,32 +466,31 @@ void App::mousePressed(int button){
 
 
 
-void App::draw(piksel::Graphics& g) {
+void App::draw(piksel::Graphics& gcanvas) {
     int blocksize = int(height/grid_s_y);
+    gcanvas.background(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
     for(int x=0;x     < int(height/grid_s_x)*grid_s_x -100; x+=int(height/grid_s_x)){
         for(int y=0;y < int(height/grid_s_x)*grid_s_y -100;  y+=int(height/grid_s_y)){
-
             int x_pos = x/blocksize;
             int y_pos = y/blocksize;
 
             if(GRID[x_pos][y_pos]==1){
-                g.fill(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+                gcanvas.fill(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
             }else{
-                g.fill(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+                gcanvas.fill(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
             }
             if(PATH[x_pos][y_pos]==1){
-                g.fill(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+                gcanvas.fill(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
             }
             if(s_goal.x==x_pos && s_goal.y==y_pos){
-                g.fill(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+                gcanvas.fill(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
             }
             if(s_start.x==x_pos && s_start.y==y_pos){
-                g.fill(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+                gcanvas.fill(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
             }
   
-            g.rect(y, x, blocksize, blocksize);
-
+            gcanvas.rect(y, x, blocksize, blocksize);
         }   
     }
     if(enabled){
@@ -491,12 +498,24 @@ void App::draw(piksel::Graphics& g) {
             onestep();
             sleep_until(system_clock::now() + nanoseconds(40000000));
         }else{
-            cout<<out<<endl;
+            //cout<<out<<endl;
+
+            std::ostringstream ss;
+            ss << g[s_start.x][s_start.y];
+            std::string s(ss.str());
+
+            msg = "Done! cost = " + s;
             enabled-=1;
         }
     }
-    g.textSize(16);
-    g.fill(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    g.text("Press 'r' to start traversing! Press 'space' to reset",50,750);
+    
+
+    gcanvas.textSize(16);
+    
+    
+    gcanvas.text("Press 'r' to start traversing! Press 'space' to reset",50,750);
+
+    gcanvas.fill(glm::vec4(r, !r, 0.0f, 1.0f));
+    gcanvas.text(msg,50,720);
    
 }

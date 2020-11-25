@@ -7,7 +7,7 @@ class App : public piksel::BaseApp {
 public:
     App() : piksel::BaseApp(1080-300, 1080-300) {}
     void setup();
-    void draw(piksel::Graphics& g);
+    void draw(piksel::Graphics& gcanvas);
     void keyPressed(int key);
     void mousePressed(int button);
     void mouseMoved(int x, int y);
