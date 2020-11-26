@@ -187,7 +187,7 @@ var Module = typeof Module !== 'undefined' ? Module : {};
     }
   
    }
-   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/.DS_Store", "start": 0, "end": 6148, "audio": 0}, {"filename": "/data/in.in", "start": 6148, "end": 11147, "audio": 0}], "remote_package_size": 11147, "package_uuid": "ccc3ed14-baf9-42b6-be8e-5871d0b7134c"});
+   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/.DS_Store", "start": 0, "end": 6148, "audio": 0}, {"filename": "/data/in.in", "start": 6148, "end": 11147, "audio": 0}], "remote_package_size": 11147, "package_uuid": "d91ea362-8d88-41e0-b043-1df2c60d602c"});
   
   })();
   
@@ -1790,8 +1790,8 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  23383: function() {var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px';},  
- 24123: function() {setTimeout(function() { var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px'; }, 0);}
+  23423: function() {var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px';},  
+ 24171: function() {setTimeout(function() { var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px'; }, 0);}
 };
 
 

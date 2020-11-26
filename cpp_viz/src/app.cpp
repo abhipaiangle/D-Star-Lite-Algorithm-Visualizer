@@ -35,11 +35,13 @@ vertex::vertex(int p_x,int p_y,float p_k1, float p_k2):x{p_x},y{p_y},k1{p_k1},k2
 vertex s_goal(25,25,0,0);
 vertex s_start(0,0,0,0);
 vertex s_last(0,0,0,0);
-int km = 0;
+double km = 0;
 
 //constraints 
 #define grid_s_x 50
 #define grid_s_y 50
+
+bool enabled = 0; //autorun
 
 double rhs[grid_s_x+1][grid_s_y+1];
 double   g[grid_s_x+1][grid_s_y+1];
@@ -122,8 +124,9 @@ bool isVertexEqual(vertex v1,vertex v2){
 }
 
 typedef priority_queue<vertex, vector<vertex>, compare > m_priority_queue; //Min Priority Queue
-
 m_priority_queue U;
+
+queue<vertex> changed_nodes;
 
 void showpq(m_priority_queue gq){
     m_priority_queue g = gq;
@@ -181,9 +184,33 @@ vertex CalculateKey(vertex s){
     return s;
 }
 
+double edgecost(vertex a,vertex b){
+    bool blocked = GRID[a.x][a.y] + GRID[b.x][b.y];
+
+    if(blocked > 0){
+        return Inf;
+    }else{
+        return sqrt( pow(a.x - b.x,2) + pow(a.y - b.y,2) );
+    }
+
+}
+
+double cg_cost(vertex a,vertex b){
+    bool blocked = GRID[a.x][a.y] + GRID[b.x][b.y];
+
+    if(blocked > 0){
+        return Inf;
+    }else{
+        double cost =  sqrt( pow(a.x - b.x,2) + pow(a.y - b.y,2) ) + g[b.x][b.y];
+        if(cost >= Inf){
+            return Inf;
+        }else return cost;
+    }
+
+}
 
 void UpdateVertex(vertex u){
-    
+    //cout<<"✨";
     if(u.x < 0 || u.x > grid_s_x || u.y < 0 || u.y > grid_s_y){
         return;
     }
@@ -193,28 +220,28 @@ void UpdateVertex(vertex u){
         double c1,c2,c3,c4,c5,c6,c7,c8;
 
         if(u.y+1 > grid_s_y)c1 = Inf;
-        else c1 = g[u.x  ][u.y+1] + 1     + (GRID[u.x][u.y] + GRID[u.x  ][u.y+1])*Inf;
+        else c1 = cg_cost(u,vertex(u.x,u.y+1,0,0));
 
         if(u.x+1 > grid_s_x)c2 = Inf;
-        else c2 = g[u.x+1][u.y  ] + 1     + (GRID[u.x][u.y] + GRID[u.x+1][u.y]  )*Inf;
+        else c2 = cg_cost(u,vertex(u.x+1,u.y,0,0));
 
         if(u.y-1 < 0) c3 = Inf;
-        else c3 = g[u.x  ][u.y-1] + 1     + (GRID[u.x][u.y] + GRID[u.x  ][u.y-1])*Inf;
+        else c3 = cg_cost(u,vertex(u.x,u.y-1,0,0));
 
         if(u.x-1 < 0) c4 = Inf;
-        else c4 = g[u.x-1][u.y]   + 1     + (GRID[u.x][u.y] + GRID[u.x-1][u.y  ])*Inf;
+        else c4 = cg_cost(u,vertex(u.x-1,u.y,0,0));
 
         if(u.x-1 < 0 || u.y - 1 < 0) c5 = Inf;
-        else c5 = g[u.x-1][u.y-1] + 1.414 + (GRID[u.x][u.y] + GRID[u.x-1][u.y-1])*Inf;
+        else c5 = cg_cost(u,vertex(u.x-1,u.y-1,0,0));
 
         if(u.x-1 < 0 || u.y + 1 > grid_s_y) c6 = Inf;
-        else c6 = g[u.x-1][u.y+1] + 1.414 + (GRID[u.x][u.y] + GRID[u.x-1][u.y+1])*Inf;
+        else c6 = cg_cost(u,vertex(u.x-1,u.y+1,0,0));
 
         if(u.x + 1 > grid_s_x || u.y - 1 < 0) c7 = Inf;
-        else c7 = g[u.x+1][u.y-1] + 1.414 + (GRID[u.x][u.y] + GRID[u.x+1][u.y-1])*Inf;
+        else c7 = cg_cost(u,vertex(u.x+1,u.y-1,0,0));
 
         if(u.x + 1 > grid_s_x || u.y + 1 > grid_s_y) c8 = Inf;
-        else c8 = g[u.x+1][u.y+1] + 1.414 + (GRID[u.x][u.y] + GRID[u.x+1][u.y+1])*Inf;
+        else c8 = cg_cost(u,vertex(u.x+1,u.y+1,0,0));
 
         rhs[u.x][u.y] = min(min(min(c3,c4),min(c1,c2)),min(min(c7,c8),min(c5,c6)));
     }
@@ -261,14 +288,19 @@ void ComputeShortestPath(){
     {
 
         //cout<<"🍀 => "<<U.size();
-        vertex k_old = TopKey();
+        vertex k_old = TopKey(); 
         pop();
         vertex u     = k_old;
         //cout<<" <= Selected "<<u.x<<","<<u.y<<endl;
         //cout<<k_old.k1<<","<<k_old.k2<<endl;
 
+        if(k_old.k1 == Inf ) { //break if path doesn't exist
+            enabled = 0;
+            return;
+        }
         if(isCostLower(k_old,CalculateKey(u))){
             u = CalculateKey(u);
+            //cout<<"🔥";
             pushToQueue(u);
         }else if(g[u.x][u.y] > rhs[u.x][u.y]){
             g[u.x][u.y] = rhs[u.x][u.y];
@@ -338,8 +370,11 @@ void fillGRID_(bool random=0){
     GRID[s_start.x][s_start.y] = 0;
     
 }
-void initiliaze(){
-    s_last = s_start;
+void initialize(){
+    s_start.x = 0;
+    s_start.y = 0;
+    s_last.x = s_start.x;
+    s_last.y = s_start.y;
 
     while(U.size()){
         U.pop();
@@ -356,7 +391,7 @@ void initiliaze(){
 }
 
 void run(){
-    initiliaze();
+    initialize();
     
     cout<<"Successfully loaded GRID"<<endl;
 
@@ -424,7 +459,7 @@ string moves_d[8]  = {"↑","←","↓","→","⬉","⬈","⬋","⬊"};
 string out= "";
 string msg= "";
 
-bool enabled = 0;
+
 bool r = 0;
 
 int mouseX;
@@ -437,25 +472,42 @@ double step_cost(int x,int y){
 }
 
 void onestep(){
-    
-    double c_cost = g[s_last.x][s_last.y];
-    
+
+    if(s_start.x==s_goal.x && s_start.y==s_goal.y)return;
+
     double arr[8] = {};
-    for(int i=0; i<8; i++){ 
-        arr[i] = step_cost(s_last.x + moves[i][0],s_last.y + moves[i][1]);
-        //cout<<arr[i]<<",";
-    }
-    cout<<" ✨ "<<s_last.x<<","<<s_last.y<<endl;
 
+    for(int i=0; i<8; i++)
+        arr[i] = step_cost(s_start.x + moves[i][0],s_start.y + moves[i][1]) + edgecost(s_start,vertex(s_start.x + moves[i][0],s_start.y + moves[i][1],0,0));
+    cout<<" ✨ "<<s_start.x<<","<<s_start.y<<endl;
 
-    int min_index = indexofSmallestElement(arr);
-
+    int min_index = indexofSmallestElement(arr); //arg min 
     out += moves_d[min_index];
 
-    s_last.x = s_last.x + moves[min_index][0];
-    s_last.y = s_last.y + moves[min_index][1];
+    s_start.x = s_start.x + moves[min_index][0];
+    s_start.y = s_start.y + moves[min_index][1];
+     
+    Traverse(s_start); //move to start
 
-    Traverse(s_last);
+    //scan graph for changed costs...
+     msg = to_string(changed_nodes.size())+ " costs changed ";
+    if(changed_nodes.size()>0){ //if any edge costs changed
+
+        km = km + h(s_last,s_start);
+
+        s_last = vertex(s_start.x,s_start.y,0,0);
+
+        while(changed_nodes.size()>0){ //for all directed edges (u,v) with changed edge costs
+            vertex current = changed_nodes.front();
+            UpdateVertex(current);
+            changed_nodes.pop();
+        }
+       
+        ComputeShortestPath();
+
+    }
+
+
 }
 
 
@@ -463,13 +515,30 @@ void onestep(){
 void App::keyPressed(int key){
     cout<<key<<endl;
     //g.rect(100, 100, 400, 400);
+
+    if(key==80){ //run algo 
+        if(enabled==0){
+            enabled = 2;
+        }else{
+            enabled = 0;
+        }
+    }
+
     if(key==92){ //run algo 
         run();
     }
 
     if(key==257){
-        if(g[s_start.x][s_start.y]==Inf)run();
-        onestep();
+        if(g[s_start.x][s_start.y]>=Inf){
+            run();
+            if(g[s_start.x][s_start.y]>=Inf){
+                msg="No Path Exists! :( ";
+                enabled = 0;
+                r = 1;
+            }
+        }else{
+            onestep();
+        }
     }
     if(key==82){
         cout<<"🏃‍♀️"<<endl;
@@ -490,15 +559,15 @@ void App::keyPressed(int key){
         r = 0;
         msg =" ";
         enabled = 0;
-        initiliaze();
+        initialize();
     }
 
     if(key==70){  // F => random
-        initiliaze();
+        initialize();
         fillGRID_(1);
     }
     if(key==67){  // C => clear
-        initiliaze();
+        initialize();
         fillGRID_();
     }
 }
@@ -521,6 +590,7 @@ void App::mousePressed(int button){
     }else{
         GRID[y_pos][x_pos]=1;
     }
+    changed_nodes.push(vertex(y_pos,x_pos,0,0));
 }
 
 
@@ -544,7 +614,7 @@ void App::draw(piksel::Graphics& gcanvas) {
             if(g[x_pos][y_pos]!=Inf){
                 gcanvas.fill(glm::vec4(1.0f, 1.0f ,1.0f, 1.0f));
                 gcanvas.rect(y, x, blocksize, blocksize);
-                gcanvas.fill(glm::vec4(0.59215f + km/50, 0.83f ,1.0f, 0.5f));
+                gcanvas.fill(glm::vec4(0.59215f + double(km/70.0), 0.83f ,1.0f, 0.5f));
             }
             if(PATH[x_pos][y_pos]==1){
                 gcanvas.fill(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
@@ -563,14 +633,16 @@ void App::draw(piksel::Graphics& gcanvas) {
         }   
     }
     if(enabled){
-        if(s_last.x < 0 || s_last.x > grid_s_x || s_last.y < 0 || s_last.y >grid_s_y)enabled=0;
+        if(s_start.x < 0 || s_start.x > grid_s_x || s_start.y < 0 || s_start.y >grid_s_y)enabled=0;
 
-        if(s_last.x!=s_goal.x or s_last.y!=s_goal.y){
+        if(s_start.x!=s_goal.x or s_start.y!=s_goal.y){
             onestep();
-            sleep_until(system_clock::now() + nanoseconds(40000000));
+            sleep_until(system_clock::now() + nanoseconds(100000000));
         }else{
             //cout<<out<<endl;
 
+            s_start.x = 0;
+            s_start.y = 0;
             std::ostringstream ss;
             ss << g[s_start.x][s_start.y];
             std::string s(ss.str());
@@ -583,10 +655,11 @@ void App::draw(piksel::Graphics& gcanvas) {
     gcanvas.fill(glm::vec4(1, 1, 1, 1.0f));
     gcanvas.textSize(16);
     gcanvas.text("Press 'r' to start traversing!",810,70);
-    gcanvas.text("Press 'Enter' to make one step",810,100);
-    gcanvas.text("Press 'space' to reset path",810,160);
-    gcanvas.text("Press 'F' to Fill grid randomly",810,190);
-    gcanvas.text("Press 'C' to Clear grid ",810,220);
+    gcanvas.text("Press 'p' to pause/resume",810,100);
+    gcanvas.text("Press 'Enter' to make one step",810,130);
+    gcanvas.text("Press 'space' to reset path",810,200);
+    gcanvas.text("Press 'F' to Fill grid randomly",810,230);
+    gcanvas.text("Press 'C' to Clear grid ",810,260);
     gcanvas.fill(glm::vec4(r, !r, 0.0f, 1.0f));
     gcanvas.text(msg,810,30);
    
