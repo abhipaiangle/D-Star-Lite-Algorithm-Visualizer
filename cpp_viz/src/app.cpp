@@ -541,6 +541,11 @@ void App::draw(piksel::Graphics& gcanvas) {
             if(GRID[x_pos][y_pos]==0){
                 gcanvas.fill(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
             }
+            if(g[x_pos][y_pos]!=Inf){
+                gcanvas.fill(glm::vec4(1.0f, 1.0f ,1.0f, 1.0f));
+                gcanvas.rect(y, x, blocksize, blocksize);
+                gcanvas.fill(glm::vec4(0.59215f + km/50, 0.83f ,1.0f, 0.5f));
+            }
             if(PATH[x_pos][y_pos]==1){
                 gcanvas.fill(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
             }
@@ -553,7 +558,7 @@ void App::draw(piksel::Graphics& gcanvas) {
             if(s_start.x==x_pos && s_start.y==y_pos){
                 gcanvas.fill(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
             }
-  
+
             gcanvas.rect(y, x, blocksize, blocksize);
         }   
     }
