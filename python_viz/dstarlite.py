@@ -102,8 +102,8 @@ def CalculateKey(s):
     k1 = min(g[s.x][s.y],rhs[s.x][s.y]) + h(s_start,s) + km
     k2 = min(g[s.x][s.y],rhs[s.x][s.y])
 
-    s.k1 = k1
-    s.k2 = k2
+    s.k1 = round(k1,4)
+    s.k2 = round(k2,4)
     s.updateinfo()
     #updatedVertex = Vertex(s.x,s.y,k1,k2)
     return s
